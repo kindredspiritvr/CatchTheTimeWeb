@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="116" fill="#0B0F14"/>
+  <circle cx="326" cy="178" r="103" fill="#121821" stroke="#7CF2A3" stroke-width="24"/>
+  <circle cx="326" cy="178" r="8" fill="#F3F6FA"/>
+  <path d="M326 116v64l47 30" fill="none" stroke="#F3F6FA" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M326 83v18M326 255v18M231 178h18M403 178h18" stroke="#F3F6FA" stroke-width="11" stroke-linecap="round" opacity=".82"/>
+
+  <!-- cupped hand -->
+  <path d="M108 420c29-8 55-9 81-4 24 5 47 14 72 13 31-1 58-16 79-39 16-18 29-39 38-62 5-12-1-26-13-31-12-5-25 0-31 11l-18 33 6-54c2-15-8-28-23-30-15-2-28 8-30 23l-5 42-3-57c-1-16-14-28-30-27-16 1-28 14-27 30l3 58-9-47c-3-15-17-25-32-22-15 3-25 17-22 32l10 55-15-30c-7-14-24-19-38-12-14 7-19 24-12 38l42 79c8 15 19 28 32 38H108v-17z" fill="#F3F6FA"/>
+  <path d="M109 420h144c33 0 63-12 87-35" fill="none" stroke="#0B0F14" stroke-width="10" stroke-linecap="round" opacity=".14"/>
+
+  <!-- small caught-motion accents -->
+  <path d="M168 159l-22-18M187 123l-9-27M197 195l-29 1" stroke="#FFB547" stroke-width="10" stroke-linecap="round"/>
+</svg>

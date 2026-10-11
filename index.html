@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#090D12" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Catch the Time" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Catch the Time</title>
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <img src="icons/brand-mark.svg" class="brand-mark" alt="" />
+        <div>
+          <div class="eyebrow">CATCH THE TIME</div>
+          <div class="brand-subtitle" id="brandSubtitle">Web</div>
+        </div>
+      </div>
+      <button class="icon-button" id="shareAppButton" aria-label="Share app">↗</button>
+    </header>
+
+    <nav class="segmented-nav" aria-label="Sections">
+      <button data-tab="now" class="nav-button active">Now</button>
+      <button data-tab="times" class="nav-button">Times</button>
+      <button data-tab="style" class="nav-button">Style</button>
+      <button data-tab="setup" class="nav-button">Setup</button>
+    </nav>
+
+    <main id="mainContent" class="main-content"></main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <template id="nowTemplate">
+    <section class="hero-card card">
+      <div class="hero-label" id="heroLabel">NEXT CATCH</div>
+      <div class="hero-time" id="heroTime">--:--</div>
+      <div class="hero-phrase" id="heroPhrase">Catch the time!</div>
+      <div class="hero-meta" id="heroMeta"></div>
+      <div class="action-row" id="heroActions">
+        <button class="button secondary" id="copyCatch">Copy</button>
+        <button class="button primary" id="shareCatch">Share</button>
+      </div>
+    </section>
+
+    <section class="metrics-grid">
+      <div class="metric card"><span class="metric-value" id="remainingCount">0</span><span class="metric-label">remaining today</span></div>
+      <div class="metric card"><span class="metric-value" id="activeCount">0</span><span class="metric-label">active moments</span></div>
+    </section>
+
+    <section class="card" id="upcomingCard">
+      <div class="section-head"><div><div class="section-kicker">TODAY</div><h2>Upcoming</h2></div><button class="text-button" data-go="times">All times</button></div>
+      <div id="upcomingList" class="time-list compact-list"></div>
+    </section>
+
+    <section class="card quiet-card" id="liveAlertCard">
+      <div class="setting-row">
+        <div><div class="setting-title">Live web alerts</div><div class="setting-subtitle" id="alertStatus">Off · only works while this web app is open</div></div>
+        <label class="switch"><input type="checkbox" id="liveAlertsToggle" /><span class="slider"></span></label>
+      </div>
+    </section>
+  </template>
+
+  <template id="timesTemplate">
+    <section class="card">
+      <div class="section-kicker">TIME SOURCE</div><h2>What counts?</h2>
+      <p class="body-copy">Use the built-in patterns, your own times, or both.</p>
+      <div class="choice-row" id="modeChoices"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><div><div class="section-kicker">PATTERNS</div><h2>Built-in packs</h2></div></div>
+      <div id="packToggles" class="setting-list"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><div><div class="section-kicker">CUSTOM</div><h2>Your times</h2></div></div>
+      <div class="custom-add-row">
+        <input type="time" id="customTimeInput" step="60" aria-label="Custom catch time" />
+        <button class="button primary" id="addCustomTime">Add</button>
+      </div>
+      <div id="customTimesList" class="chips"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><div><div class="section-kicker">FULL DAY</div><h2>Timeline</h2></div><span class="count-badge" id="timelineCount"></span></div>
+      <div id="timelineList" class="time-list"></div>
+    </section>
+  </template>
+
+  <template id="styleTemplate">
+    <section class="preview-card card">
+      <div class="section-kicker">PREVIEW</div>
+      <div class="preview-time">12:34</div>
+      <div class="preview-phrase" id="previewPhrase">Catch the time!</div>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">TYPE</div><h2>Typeface</h2>
+      <div class="font-grid" id="fontChoices"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">PALETTE</div><h2>Colour</h2>
+      <div class="palette-grid" id="paletteChoices"></div>
+    </section>
+
+    <section class="card">
+      <div class="section-head"><div><div class="section-kicker">CUSTOM PALETTE</div><h2>Tune it</h2></div></div>
+      <div id="customColourFields" class="colour-grid"></div>
+      <button class="button secondary full-width" id="saveCustomPalette">Use custom palette</button>
+    </section>
+  </template>
+
+  <template id="setupTemplate">
+    <section class="card install-card" id="installCard">
+      <div class="section-kicker">IPHONE</div><h2>Add to Home Screen</h2>
+      <p class="body-copy" id="installInstructions">In Safari, tap Share, then Add to Home Screen. It will launch like a normal standalone app.</p>
+      <div class="status-pill" id="installStatus">Browser mode</div>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">WORDING</div><h2>Catch phrase</h2>
+      <label class="field-label" for="phraseInput">Notification and share text</label>
+      <input class="text-input" id="phraseInput" maxlength="80" />
+      <div class="setting-row compact-setting">
+        <div><div class="setting-title">Emoji</div><div class="setting-subtitle">Add a time-of-day emoji when copying or sharing.</div></div>
+        <label class="switch"><input type="checkbox" id="emojiToggle" /><span class="slider"></span></label>
+      </div>
+      <div class="setting-row compact-setting">
+        <div><div class="setting-title">Compact Now</div><div class="setting-subtitle">Hide the upcoming list on the Now tab.</div></div>
+        <label class="switch"><input type="checkbox" id="compactToggle" /><span class="slider"></span></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">TRANSFER</div><h2>Move your setup</h2>
+      <p class="body-copy">Compatible with Catch the Time v3 setup codes, including your Android palette, font, phrase, pattern packs and custom times.</p>
+      <div class="action-row">
+        <button class="button secondary" id="exportSetup">Copy setup</button>
+        <button class="button primary" id="importSetup">Import setup</button>
+      </div>
+      <textarea class="text-area" id="setupCode" rows="4" placeholder="Paste a CTT3: setup code here…"></textarea>
+    </section>
+
+    <section class="card">
+      <div class="section-kicker">WEB LIMITS</div><h2>Notifications</h2>
+      <p class="body-copy">This version can alert you while the web app is open. Reliable alerts after iOS suspends or closes it require a tiny push server, which we can add later without an Apple developer licence.</p>
+    </section>
+
+    <section class="card about-card">
+      <div class="section-kicker">ABOUT</div><h2>Catch the Time · Web 1.0</h2>
+      <p class="body-copy">Runs locally in your browser, stores settings on this device, and works offline once installed.</p>
+    </section>
+  </template>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
